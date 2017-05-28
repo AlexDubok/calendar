@@ -1,5 +1,5 @@
-# game-of-life
-React + D3 implementation of famous game.
+# calendar
+Offline-first calendar app.
 
 ### 1. Launching the project 
 
