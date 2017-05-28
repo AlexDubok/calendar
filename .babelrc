@@ -17,6 +17,14 @@
         "react"
     ],
     "plugins": [
-        "react-hot-loader/babel", "transform-class-properties"
+        "react-hot-loader/babel", "transform-class-properties", 
+        [
+            "babel-plugin-react-css-modules", 
+            {
+               "filetypes": {
+                    ".less": "postcss-less"
+                }
+            }
+        ]
     ]
 }
