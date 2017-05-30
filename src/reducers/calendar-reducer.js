@@ -1,7 +1,12 @@
 import { SET_TASK } from '../actions/calendar-actions';
 
 const initialState = {
-    task: 'no task'
+    task  : 'no task',
+    events: [ { // TODO: put this in reducer
+        date       : '',
+        description: ''
+    } ],
+    activeView: 'month'
 };
 
 export default function inputs(state = initialState, action) {
