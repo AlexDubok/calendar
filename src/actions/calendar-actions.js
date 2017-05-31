@@ -1,10 +1,10 @@
-import { saveState } from '../utils/localStorageUtils.js';
+// import { saveState } from '../utils/localStorageUtils.js';
 
 
 export const SET_TASK = 'SET_TASK';
 
 export function setTask(task) {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch({ type   : SET_TASK,
             payload: { task },
             meta   : {
@@ -18,6 +18,6 @@ export function setTask(task) {
                 }
             }
         });
-        saveState(getState());
+        // saveState(getState());
     };
 }

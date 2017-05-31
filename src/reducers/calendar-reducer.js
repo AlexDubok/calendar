@@ -1,7 +1,7 @@
 import { SET_TASK } from '../actions/calendar-actions';
 
 const initialState = {
-    task  : 'no task',
+    tasks : { '2017-05-31': true },
     events: [ { // TODO: put this in reducer
         date       : '',
         description: ''
