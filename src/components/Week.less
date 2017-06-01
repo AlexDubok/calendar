@@ -1,0 +1,43 @@
+.Week {
+    margin-top: 40px;
+    display: flex;
+    width: 80%;
+    height: 800px;
+    background-color: #ffffff;
+    border: 1px solid tomato;
+    align-items: center;
+    position: relative;
+    .timeLabels {
+        width: 50px;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: -50px;
+        display: flex;
+        flex-direction: column;
+        .timeLabel {
+            height: calc(100% / 24);
+            width: 100%;
+        }
+    }
+    .weekDay {
+        height: 100%;
+        width: calc(100% / 7);
+        border-right: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        .date {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            height: 30px;
+            width: 100%;
+            top: -30px;
+            left: 0;
+        }
+        &:last-child {
+            border-right: none;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+.Timeline {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    .timeframe {
+        border-bottom: 1px solid darkgray;
+        height: calc(100% / 48);
+        &:nth-child(odd) {
+            border-bottom: 1px solid lightgray;
+        }
+        &:last-child {
+            border-bottom: none;
+        }
+        &:hover {
+            border: 2px solid blue;
+        }
+    }
+    .task {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        border-style: solid;
+        border-width: 2px;
+    }
+}
