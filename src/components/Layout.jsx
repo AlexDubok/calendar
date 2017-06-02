@@ -41,7 +41,6 @@ class Layout extends PureComponent {
         const { selected } = this.state;
         const { tasks } = this.props;
 
-        console.log(tasks);
         const startDate = selected.startOf('isoWeek').format('MMM Do');
         const endDate = selected.endOf('isoWeek').format('MMM Do');
 
@@ -55,7 +54,7 @@ class Layout extends PureComponent {
                     </div>
                     <button styleName='btn' onClick={this.handleNext}>{'>'}</button>
                 </div>
-                <Week selected={selected} />
+                <Week selected={selected} tasks={tasks} />
             </div>
         );
     }
@@ -63,7 +62,7 @@ class Layout extends PureComponent {
 
 function mapStateToProps(state) {
     return {
-        tasks: state.calendar.tasks
+        tasks: state.tasks
     };
 }
 

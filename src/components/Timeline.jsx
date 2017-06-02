@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import './TimeLine.less';
+import Task from './Task.jsx';
+import './Timeline.less';
 
 class Timeline extends PureComponent {
     static propTypes = {
@@ -11,10 +12,7 @@ class Timeline extends PureComponent {
     }
 
     state = {
-        editing  : false,
-        activeDay: null,
-        startTime: null,
-        endTime  : null
+        activeDay: null
     }
 
     handleActivate = (taskKey, time) =>
@@ -38,6 +36,14 @@ class Timeline extends PureComponent {
         }
     }
 
+    getTimeStamp(time) {
+        return moment(time, 'HH:mm');
+    }
+
+    getMinutesDiff(time1, time2) {
+        return time1.diff(time2, 'minutes');
+    }
+
     renderTimeline = () => {
         const hours = Array(48).fill(null)
             .map((hour, i) =>
@@ -52,12 +58,21 @@ class Timeline extends PureComponent {
 
     render() {
         const { tasks, dayKey } = this.props;
+        const st = '09:00';
+        const m = moment(st, 'HH:mm').diff(moment('00:00', 'HH:mm'), 'minutes');
+
+        console.log('m:', m);
 
         return (
             <div styleName='Timeline' >
                 {this.renderTimeline()}
                 {
-                    tasks && tasks[dayKey] && <div styleName='task'>{dayKey}</div>
+                    tasks && tasks[dayKey] &&
+                    tasks[dayKey].map((task, i) => {
+                        return (
+                            <Task key={i} task={task} maxHeight={800} />
+                        );
+                    })
                 }
             </div>
         );
