@@ -4,73 +4,81 @@ import PropTypes from 'prop-types';
 import Task from './Task.jsx';
 import './Timeline.less';
 
+const TIME_FORMAT = 'YYYY-MM-DD_HH:mm';
+
 class Timeline extends PureComponent {
     static propTypes = {
-        dayKey : PropTypes.string,
-        taskKey: PropTypes.string,
-        tasks  : PropTypes.object
+        dayKey: PropTypes.string,
+        tasks : PropTypes.object
     }
 
     state = {
+        editing  : false,
         activeDay: null
     }
 
-    handleActivate = (taskKey, time) =>
-        this.setState({
-            editing  : true,
-            activeDay: taskKey,
-            startTime: moment(taskKey).add(time * 30, 'minutes')
-        });
 
-    handleDeactivate = (taskKey, time) => {
-        const { activeDay } = this.state;
+    handleCreateTask = () => {
+        // this.props.openTaskDialog(i);
+    }
 
-        this.setState({ endTime: moment(activeDay).add(time * 30, 'minutes'), editing: false });
-    };
-
-    handleSelect = (time) => {
-        const { activeDay, editing } = this.state;
-
-        if (editing) {
-            this.setState({ endTime: moment(activeDay).add(time * 30, 'minutes') });
+    handleDefineArea = (e) => {
+        if (this.state.editing) {
+            console.log(e.target.getAttribute('data-time'));
         }
     }
 
-    getTimeStamp(time) {
-        return moment(time, 'HH:mm');
+    handleStartEditing = () => {
+        console.log('start');
+        this.setState({ editing: true });
     }
 
-    getMinutesDiff(time1, time2) {
-        return time1.diff(time2, 'minutes');
-    }
+    handleStopEditing = () => {
+        if (this.state.editing) {
+            console.log('stop');
+            this.setState({ editing: false });
+        }
+    };
 
-    renderTimeline = () => {
+    renderTimeline = (date) => {
+        const start = moment(date).startOf('day');
+
         const hours = Array(48).fill(null)
-            .map((hour, i) =>
-                <div
-                    key={i}
-                    styleName='timeframe'
-                />
-            );
+            .map((hour, i) => {
+                const time = start.clone().add(i * 30, 'minutes').format(TIME_FORMAT);
+
+                return (
+                    <div
+                        key={time}
+                        styleName='timeframe'
+                        data-time={time}
+                        onClick={this.handleCreateTask}
+                        onMouseDown={this.handleStartEditing}
+                        onMouseOver={this.handleDefineArea}
+                        onMouseUp={this.handleStopEditing}
+                    />
+                );
+            });
 
         return hours;
     }
 
     render() {
         const { tasks, dayKey } = this.props;
-        const st = '09:00';
-        const m = moment(st, 'HH:mm').diff(moment('00:00', 'HH:mm'), 'minutes');
-
-        console.log('m:', m);
 
         return (
-            <div styleName='Timeline' >
-                {this.renderTimeline()}
+            <div styleName='Timeline' onMouseLeave={this.handleStopEditing}>
+                {this.renderTimeline(dayKey)}
                 {
                     tasks && tasks[dayKey] &&
                     tasks[dayKey].map((task, i) => {
                         return (
-                            <Task key={i} task={task} maxHeight={800} />
+                            <Task
+                                key={i}
+                                task={task}
+                                maxHeight={800}
+                                timeFormat={TIME_FORMAT}
+                            />
                         );
                     })
                 }

@@ -5,9 +5,10 @@ import './Task.less';
 
 class Timeline extends PureComponent {
     static propTypes = {
-        dayKey   : PropTypes.string,
-        task     : PropTypes.object,
-        maxHeight: PropTypes.number
+        timeFormat: PropTypes.string,
+        dayKey    : PropTypes.string,
+        task      : PropTypes.object,
+        maxHeight : PropTypes.number
     }
 
     state = {
@@ -16,42 +17,33 @@ class Timeline extends PureComponent {
         endTime  : this.props.task.endTime
     }
 
-    getMoment = (time) => {
-        return moment(time, 'HH:mm');
-    }
-
-    getMinutesDiff = (time1, time2) => {
-        return time1.diff(time2, 'minutes');
-    }
-
     getHeight = () => {
-        const { maxHeight, task } = this.props;
-        const startMinute = this.getMoment(task.startTime);
-        const endMinute = this.getMoment(task.endTime);
+        const { timeFormat, maxHeight, task } = this.props;
+        const startMinute = moment(task.startTime, timeFormat);
+        const endMinute = moment(task.endTime, timeFormat);
 
-        const heightInMinutes = this.getMinutesDiff(endMinute, startMinute);
+        const heightInMinutes = endMinute.diff(startMinute, 'minutes');
         const heightInPx = heightInMinutes * maxHeight / 1440;
 
         return heightInPx;
     }
 
     getTopPosition = () => {
-        const { maxHeight, task } = this.props;
-        const startMinute = this.getMoment(task.startTime);
-        const topInMinutes = this.getMinutesDiff(startMinute, moment('00:00', 'HH:mm'));
+        const { timeFormat, maxHeight, task } = this.props;
+        const startMinute = moment(task.startTime, timeFormat);
 
-        console.log('topInMinutes', topInMinutes);
+        const topInMinutes = startMinute.diff(startMinute.clone().startOf('day'), 'minutes');
         const topInPx = topInMinutes * maxHeight / 1440;
 
         return topInPx;
     }
 
     render() {
-        const { task } = this.props;
+        const { task, timeFormat } = this.props;
         const top = this.getTopPosition();
         const height = this.getHeight();
-
-        console.log(top, height);
+        const startTime = moment(task.startTime, timeFormat).format('HH:mm');
+        const endTime = moment(task.endTime, timeFormat).format('HH:mm');
 
         return (
             <div
@@ -59,7 +51,7 @@ class Timeline extends PureComponent {
                 style={{ top, height, color: task.color || 'blue' }}
             >
                 <div styleName='bg' />
-                <div styleName='time'>{`${task.startTime}-${task.endTime}`}</div>
+                <div styleName='time'>{`${startTime}-${endTime}`}</div>
                 <div>{task.title}</div>
                 <div styleName='description'>{task.description}</div>
             </div>
