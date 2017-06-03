@@ -1,6 +1,6 @@
 import React  from 'react';
-import Layout from '../components/Layout.jsx';
+import LayoutContainer from './LayoutContainer.jsx';
 
 export default function App() {
-    return <Layout />;
+    return <LayoutContainer />;
 }

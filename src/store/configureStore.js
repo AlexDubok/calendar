@@ -1,8 +1,6 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import thunkMiddleware                  from 'redux-thunk';
 import { loadState } from '../utils/localStorageUtils.js';
-// import { offline }                      from 'redux-offline';
-// import offlineConfig                    from 'redux-offline/lib/defaults';
 import rootReducer                      from '../reducers';
 
 export default function configureStore() {
@@ -13,9 +11,11 @@ export default function configureStore() {
         rootReducer,
         preloadedState,
         composeEnhancers(
-        applyMiddleware(thunkMiddleware)
+            applyMiddleware(thunkMiddleware)
         )
     );
+
+    console.log(rootReducer);
 
     if (module.hot) {
         module.hot.accept('../reducers', () => {
@@ -24,7 +24,6 @@ export default function configureStore() {
             store.replaceReducer(nextRootReducer);
         });
     }
-
 
     return store;
 }

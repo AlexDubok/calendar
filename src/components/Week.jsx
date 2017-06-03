@@ -1,38 +1,15 @@
 import React, { PureComponent } from 'react';
-import moment                   from 'moment';
 import PropTypes                from 'prop-types';
-import Timeline from './Timeline.jsx';
+import TimelineContainer from '../containers/TimelineContainer.jsx';
 import './Week.less';
 
 class Week extends PureComponent {
     static propTypes = {
-        selected: PropTypes.object,
-        tasks   : PropTypes.object
-    }
-
-    handleActivate = (taskKey, time) =>
-        this.setState({
-            editing  : true,
-            activeDay: taskKey,
-            startTime: moment(taskKey).add(time * 30, 'minutes')
-        });
-
-    handleDeactivate = (taskKey, time) => {
-        const { activeDay } = this.state;
-
-        this.setState({ endTime: moment(activeDay).add(time * 30, 'minutes'), editing: false });
-    };
-
-    handleSelect = (time) => {
-        const { activeDay, editing } = this.state;
-
-        if (editing) {
-            this.setState({ endTime: moment(activeDay).add(time * 30, 'minutes') });
-        }
+        selected: PropTypes.object
     }
 
     render() {
-        const { selected, tasks } = this.props;
+        const { selected } = this.props;
         const timeLabels = Array(24).fill(null)
             .map((hour, i) => <div key={i} styleName='timeLabel'>{selected.hour(i).format('HH:00')}</div>);
 
@@ -44,7 +21,7 @@ class Week extends PureComponent {
                 return (
                     <div key={dayKey} styleName='weekDay'>
                         <div styleName='date'>{date.format('ddd, MMM DD')}</div>
-                        <Timeline dayKey={dayKey} tasks={tasks} />
+                        <TimelineContainer dayKey={dayKey} />
                     </div>
                 );
             });

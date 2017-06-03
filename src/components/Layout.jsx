@@ -1,24 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes                from 'prop-types';
-import { connect }              from 'react-redux';
 import moment                   from 'moment';
-import { setTask }              from '../actions/calendar-actions.js';
-import Week from './Week.jsx';
+import Dialog                   from './Dialog.jsx';
+import Week                     from './Week.jsx';
 import './Layout.less';
 
 
 class Layout extends PureComponent {
     static propTypes = {
-        setTask: PropTypes.func,
-        tasks  : PropTypes.object
+        tasks      : PropTypes.object,
+        dialog     : PropTypes.object,
+        closeDialog: PropTypes.func
     }
-
 
     state = {
         selected: moment()
-    }
-
-    componentDidMount() {
     }
 
     handleNext = () => {
@@ -37,15 +33,20 @@ class Layout extends PureComponent {
         this.setState({ selected: newSelected });
     }
 
+    handleCloseDialog = () => this.props.closeDialog();
+
     render() {
         const { selected } = this.state;
         const { tasks } = this.props;
+        const { isOpen, position, startTime } = this.props.dialog;
+
+        console.log(position);
 
         const startDate = selected.startOf('isoWeek').format('MMM Do');
         const endDate = selected.endOf('isoWeek').format('MMM Do');
 
         return (
-            <div styleName='Layout' >
+            <div styleName='Layout' onClick={this.handleCloseDialog} >
                 <div styleName='controls'>
                     <button styleName='btn' onClick={this.handlePrevious}>{'<'}</button>
                     <div>
@@ -55,15 +56,13 @@ class Layout extends PureComponent {
                     <button styleName='btn' onClick={this.handleNext}>{'>'}</button>
                 </div>
                 <Week selected={selected} tasks={tasks} />
+                {
+                    isOpen ? <Dialog style={position} startTime={startTime} /> : null
+                }
             </div>
         );
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        tasks: state.tasks
-    };
-}
 
-export default connect(mapStateToProps, { setTask })(Layout);
+export default Layout;

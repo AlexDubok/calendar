@@ -14,6 +14,22 @@
         &:hover {
             border: 2px solid blue;
         }
+        &:first-child .active {
+            border-top: 2px solid blue;
+        }
+
+        &.inBetween {
+            border-right: 2px solid blue;
+            border-left: 2px solid blue;
+        }
+        &.first {
+            border: 2px solid blue;
+            border-bottom: none;
+        }
+        &.last {
+            border: 2px solid blue;
+            border-top: none;
+        }
     }
     .task {
         width: 100%;

@@ -1,0 +1,31 @@
+.Dialog {
+    width: 250px;
+    height: 180px;
+    background: var(--dialog-bg);
+    border: 1px solid var(--dialog-border);
+    border-radius: 5px;
+    position: absolute;
+}
+.Dialog:after, .Dialog:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.Dialog:after {
+    border-color: rgba(136, 183, 213, 0);
+    border-right-color: var(--dialog-bg);
+    border-width: 20px;
+    margin-top: -20px;
+}
+.Dialog:before {
+    border-color: rgba(194, 225, 245, 0);
+    border-right-color: var(--dialog-border);
+    border-width: 21px;
+    margin-top: -21px;
+}

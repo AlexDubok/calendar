@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import calendar from './calendar-reducer';
-import displayed from './displayed-reducer';
+import dialog from './dialog-reducer';
 import tasks from './task-reducer';
 
 export default combineReducers({
-    calendar,
-    displayed,
+    dialog,
     tasks
 });

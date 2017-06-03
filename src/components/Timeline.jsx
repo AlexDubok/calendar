@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Task from './Task.jsx';
 import './Timeline.less';
@@ -8,54 +9,49 @@ const TIME_FORMAT = 'YYYY-MM-DD_HH:mm';
 
 class Timeline extends PureComponent {
     static propTypes = {
-        dayKey: PropTypes.string,
-        tasks : PropTypes.object
+        dayKey    : PropTypes.string,
+        tasks     : PropTypes.object,
+        openDialog: PropTypes.func
     }
 
     state = {
-        editing  : false,
-        activeDay: null
+        editing: false
     }
 
 
-    handleCreateTask = () => {
-        // this.props.openTaskDialog(i);
+    handleCreateTask = (e) => {
+        e.stopPropagation();
+        const rect = e.target.getBoundingClientRect();
+        const { top, left } = rect;
+
+        const dialogParams = {
+            position : { top: top - 30, left: left + 120 },
+            startTime: e.target.getAttribute('data-time')
+        };
+
+        this.props.openDialog(dialogParams);
     }
 
-    handleDefineArea = (e) => {
-        if (this.state.editing) {
-            console.log(e.target.getAttribute('data-time'));
-        }
-    }
 
-    handleStartEditing = () => {
-        console.log('start');
-        this.setState({ editing: true });
-    }
-
-    handleStopEditing = () => {
-        if (this.state.editing) {
-            console.log('stop');
-            this.setState({ editing: false });
-        }
-    };
+    handleDrag = (e) => console.log(e.target);
 
     renderTimeline = (date) => {
         const start = moment(date).startOf('day');
 
         const hours = Array(48).fill(null)
             .map((hour, i) => {
-                const time = start.clone().add(i * 30, 'minutes').format(TIME_FORMAT);
+                const timeObj = start.clone().add(i * 30, 'minutes');
+                const time = timeObj.format(TIME_FORMAT);
+                const cellStyles = cx('timeframe', {
+                });
 
                 return (
                     <div
                         key={time}
-                        styleName='timeframe'
+                        styleName={cellStyles}
                         data-time={time}
+                        data-index={i}
                         onClick={this.handleCreateTask}
-                        onMouseDown={this.handleStartEditing}
-                        onMouseOver={this.handleDefineArea}
-                        onMouseUp={this.handleStopEditing}
                     />
                 );
             });
