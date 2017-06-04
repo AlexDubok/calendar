@@ -9,14 +9,16 @@ class DayOfMonth extends PureComponent {
         tasks       : PropTypes.array,
         date        : PropTypes.string,
         currentMonth: PropTypes.bool,
-        small       : PropTypes.bool
+        small       : PropTypes.bool,
+        isToday     : PropTypes.bool
     }
 
 
     render() {
-        const { tasks, date, currentMonth, small } = this.props;
+        const { tasks, date, currentMonth, small, isToday } = this.props;
         const dayClass = cx('DayOfMonth', {
             currentMonth,
+            isToday,
             small
         });
 

@@ -3,6 +3,7 @@
     flex-shrink: 0;
     height: 110px;
     border: 1px solid lightgray;
+    background: white;
     color: lightgray;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -27,5 +28,17 @@
     }
     &.small {
         height: 30px;
+        background: transparent;
+        &.currentMonth {
+            background: white;
+            color: black;
+            border: 1px solid lightgray;
+        }
+        &.isToday {
+            background: rgba(33, 183, 39, 0.5);
+        }
+    }
+    &.isToday {
+        background: rgba(33, 183, 39, 0.5);
     }
 }

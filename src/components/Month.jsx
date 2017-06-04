@@ -8,11 +8,13 @@ class Month extends PureComponent {
     static propTypes = {
         selected: PropTypes.object,
         tasks   : PropTypes.object,
-        small   : PropTypes.bool
+        small   : PropTypes.bool,
+        today   : PropTypes.object
     }
 
     renderDays = (weekStart) => {
-        const { selected, tasks, small } = this.props;
+        const { selected, tasks, small, today } = this.props;
+
         const days = Array(7).fill(null)
             .map((day, i) => {
                 const currentDay = weekStart.clone().add(1 * i, 'days');
@@ -24,6 +26,7 @@ class Month extends PureComponent {
                         date={currentDay.format('DD')}
                         currentMonth={currentDay.format('MM') === selected.format('MM')}
                         tasks={tasks && tasks[taskKey]}
+                        isToday={today.format('YYYY-MM-DD') === taskKey}
                         small={small}
                     />
                 );
@@ -35,7 +38,7 @@ class Month extends PureComponent {
     renderWeeks = () => {
         const { selected } = this.props;
         // const days = Array(7).fill(null);
-        const firstDay = selected.clone().startOf('month').startOf('week');
+        const firstDay = selected.clone().startOf('month').startOf('isoWeek');
         const nextMonth = selected.clone().startOf('month').add(1, 'month');
         const curentWeek = firstDay.clone();
         const weeks = [];

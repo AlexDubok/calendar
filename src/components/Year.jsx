@@ -6,11 +6,12 @@ import './Year.less';
 class Year extends PureComponent {
     static propTypes = {
         selected: PropTypes.object,
-        tasks   : PropTypes.object
+        tasks   : PropTypes.object,
+        today   : PropTypes.object
     }
 
     renderMonths = () => {
-        const { selected, tasks } = this.props;
+        const { selected, tasks, today } = this.props;
         const startOfYear = selected.clone().startOf('year').startOf('month');
 
         const months = Array(12).fill(null)
@@ -21,6 +22,7 @@ class Year extends PureComponent {
                     <div key={currentMonth.format('YY-MM')} styleName='monthContainer'>
                         <div styleName='name'>{currentMonth.format('MMMM')}</div>
                         <Month
+                            today={today}
                             selected={currentMonth}
                             tasks={tasks}
                             small

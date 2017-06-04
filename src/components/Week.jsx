@@ -1,15 +1,17 @@
 import React, { PureComponent } from 'react';
 import PropTypes                from 'prop-types';
-import TimelineContainer from '../containers/TimelineContainer.jsx';
+import cx                       from 'classnames';
+import TimelineContainer        from '../containers/TimelineContainer.jsx';
 import './Week.less';
 
 class Week extends PureComponent {
     static propTypes = {
-        selected: PropTypes.object
+        selected: PropTypes.object,
+        today   : PropTypes.object
     }
 
     render() {
-        const { selected } = this.props;
+        const { selected, today } = this.props;
         const timeLabels = Array(24).fill(null)
             .map((hour, i) => <div key={i} styleName='timeLabel'>{selected.hour(i).format('HH:00')}</div>);
         const days = Array(7).fill(null);
@@ -22,9 +24,12 @@ class Week extends PureComponent {
                             days.map((day, i) => {
                                 const date = selected.isoWeekday(i + 1);
                                 const dayKey = date.format('YYYY-MM-DD');
+                                const dateStyle = cx('date', {
+                                    isToday: today.format('YYYY-MM-DD') === dayKey
+                                });
 
                                 return (
-                                    <div key={dayKey} styleName='date'>{date.format('ddd, MMM DD')}</div>
+                                    <div key={dayKey} styleName={dateStyle}>{date.format('ddd, MMM DD')}</div>
                                 );
                             })
                         }
@@ -35,9 +40,12 @@ class Week extends PureComponent {
                             days.map((day, i) => {
                                 const date = selected.isoWeekday(i + 1);
                                 const dayKey = date.format('YYYY-MM-DD');
+                                const dayStyle = cx('weekDay', {
+                                    isToday: today.format('YYYY-MM-DD') === dayKey
+                                });
 
                                 return (
-                                    <div key={dayKey} styleName='weekDay'>
+                                    <div key={dayKey} styleName={dayStyle}>
                                         <TimelineContainer dayKey={dayKey} />
                                     </div>
                                 );
