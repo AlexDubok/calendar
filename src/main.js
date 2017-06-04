@@ -6,19 +6,19 @@ import { Provider } from 'react-redux';
 import App              from './containers/App.jsx';
 import configureStore from './store/configureStore';
 
-// if ('serviceWorker' in navigator) {
-//     window.addEventListener('load', async () => {
-//         try {
-//             const registration = await navigator.serviceWorker.register('/sw.js');
-//             // Registration was successful
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+        try {
+            const registration = await navigator.serviceWorker.register('/sw.js');
+            // Registration was successful
 
-//             console.log('ServiceWorker registration successful with scope: ', registration.scope);
-//         } catch (err) {
-//             // registration failed :(
-//             console.log('ServiceWorker registration failed: ', err);
-//         }
-//     });
-// }
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        } catch (err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+        }
+    });
+}
 
 const store = configureStore();
 
