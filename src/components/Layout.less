@@ -20,39 +20,22 @@ body {
     align-items: center;
     flex-direction: column;
 
-    .controls {
-        width: 250px;
-        height: 50px;
-        flex-shrink: 0;
-        margin: auto 70px auto 0;
+    .navigation {
+        width: 300px;
         display: flex;
         justify-content: space-around;
         align-items: center;
-        h3 {
-            margin: 0;
+        margin: 40px 0;
+        .link {
+            height: 20px;
+            text-decoration: none;
+            background: transparent;
+            padding: 0 10px;
+            color: black;
         }
-
-        .btn {
-            cursor: pointer;
-            border: 1px solid transparent;
-            background: black;
-            color: white;
-            border-radius: 4px;
-            height: 30px;
-            outline: none;
-            &:hover, &:active {
-                color: black;
-                background: white;
-                border-color: black;
-                outline: none;
-            }
-            &:active {
-                box-shadow: inset 2px 2px 5px 0 rgba(0,0,0,0.75);
-            }
-            &:active {
-                border-color: var(--input-color);
-                background: var(--background-color);
-            }
-        }
+    }
+    .container {
+        width: 80%;
+        display: flex;
     }
 }

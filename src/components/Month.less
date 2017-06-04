@@ -1,0 +1,22 @@
+.Month {
+    flex: 1;
+    .topContainer {
+        display: flex;
+        .weekDay {
+            flex: 1;
+        }
+    }
+    .monthContainer {
+        background: white;
+        display: flex;
+        flex-direction: column;
+        .week {
+            display: flex;
+        }
+    }
+    &.small {
+        width: 200px;
+        margin: 40px;
+        flex-shrink: 0;
+    }
+}

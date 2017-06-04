@@ -1,59 +1,70 @@
-import React, { PureComponent } from 'react';
-import PropTypes                from 'prop-types';
-import moment                   from 'moment';
-import Dialog                   from './Dialog.jsx';
-import Week                     from './Week.jsx';
+import React, { Component } from 'react';
+import PropTypes            from 'prop-types';
+import { Route, NavLink  }  from 'react-router-dom';
+import WeekContainer        from '../containers/WeekContainer.jsx';
+import MonthContainer       from '../containers/MonthContainer.jsx';
+import YearContainer        from '../containers/YearContainer.jsx';
+import Controls             from './Controls.jsx';
+import Dialog               from './Dialog.jsx';
 import './Layout.less';
 
 
-class Layout extends PureComponent {
+class Layout extends Component {
     static propTypes = {
         tasks      : PropTypes.object,
         dialog     : PropTypes.object,
-        closeDialog: PropTypes.func
-    }
-
-    state = {
-        selected: moment()
+        closeDialog: PropTypes.func,
+        selected   : PropTypes.object,
+        selectDate : PropTypes.func,
+        path       : PropTypes.string
     }
 
     handleNext = () => {
-        const newSelected = this.state.selected.clone();
+        const { selectDate, selected, path } = this.props;
+        const newSelected = selected.clone().add(1, path);
 
-        newSelected.add(1, 'week');
-
-        this.setState({ selected: newSelected });
+        selectDate(newSelected);
     }
 
     handlePrevious = () => {
-        const newSelected = this.state.selected.clone();
+        const { selectDate, selected, path } = this.props;
+        const newSelected = selected.clone();
 
-        newSelected.add(-1, 'week');
+        newSelected.add(-1, path);
 
-        this.setState({ selected: newSelected });
+        selectDate(newSelected);
     }
 
     handleCloseDialog = () => this.props.closeDialog();
 
     render() {
-        const { selected } = this.state;
-        const { tasks, closeDialog } = this.props;
+        const { closeDialog, selected, selectDate, path } = this.props;
         const { isOpen, startTime } = this.props.dialog;
+        const selectedStyle = {
+            background  : 'black',
+            color       : 'white',
+            borderRadius: 10
 
-        const startDate = selected.startOf('isoWeek').format('MMM Do');
-        const endDate = selected.endOf('isoWeek').format('MMM Do');
+        };
 
         return (
             <div styleName='Layout' onClick={this.handleCloseDialog} >
-                <div styleName='controls'>
-                    <button styleName='btn' onClick={this.handlePrevious}>{'<'}</button>
-                    <div>
-                        <div>{`Year: ${selected.year()}, Week: ${selected.isoWeek()}`}</div>
-                        <h3>{`${startDate} - ${endDate}`}</h3>
-                    </div>
-                    <button styleName='btn' onClick={this.handleNext}>{'>'}</button>
+                <div styleName='navigation'>
+                    <NavLink
+                        to='/'
+                        exact
+                        styleName='link'
+                        activeStyle={selectedStyle}
+                    > Week</NavLink >
+                    <NavLink styleName='link' activeStyle={selectedStyle} to='/month'>Month</NavLink >
+                    <NavLink styleName='link' activeStyle={selectedStyle} to='/year'>Year</NavLink >
                 </div>
-                <Week selected={selected} tasks={tasks} />
+                <Controls selected={selected} selectDate={selectDate} path={path} />
+                <div styleName='container'>
+                    <Route exact path='/' component={WeekContainer} />
+                    <Route exact path='/month' component={MonthContainer} />
+                    <Route exact path='/year' component={YearContainer} />
+                </div>
                 {
                     isOpen
                         ? <Dialog

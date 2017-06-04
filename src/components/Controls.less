@@ -1,0 +1,34 @@
+.Controls {
+    width: 250px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    h3 {
+        margin: 0;
+    }
+
+    .btn {
+        cursor: pointer;
+        border: 1px solid transparent;
+        background: black;
+        color: white;
+        border-radius: 4px;
+        height: 30px;
+        outline: none;
+        &:hover, &:active {
+            color: black;
+            background: white;
+            border-color: black;
+            outline: none;
+        }
+        &:active {
+            box-shadow: inset 2px 2px 5px 0 rgba(0,0,0,0.75);
+        }
+        &:active {
+            border-color: var(--input-color);
+            background: var(--background-color);
+        }
+    }
+}
