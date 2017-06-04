@@ -3,7 +3,14 @@ Offline-first calendar app.
 
 ### 1. Launching the project 
 
-1. Open `/dist/index.html` in the latest Chrome.
+1. `npm install`
+2. `npm start`
+3. Open http://localhost:3000 in the latest Chrome.
+
+To check offline mode: 
+
+4. Stop devserver
+5. Reload page
 
 ### 2. Usage
 
@@ -14,12 +21,6 @@ Offline-first calendar app.
 - To return to the current date, click "Today".
 - All data is persisted in Local storage.
 - Service worker caches app files so that the app can work offline.
-
-### 3. Development mode
-
-1. `npm install`
-2. `npm start`
-3. Open http://localhost:3000 in the latest Chrome.
 
 
 #### Technologies used

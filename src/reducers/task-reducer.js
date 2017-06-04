@@ -1,14 +1,14 @@
 import { TASK_SAVE, TASK_UPDATE, TASK_DELETE } from '../actions/task-actions';
 
 const initialState = {
-    '2017-06-01': [
+    '2017-07-01': [
         {
             id         : 'defaultId', // uuid
             title      : 'DevChallenge Final',
             multiDay   : false,
             daysTotal  : 1,
-            startTime  : '2017-06-01_09:00', // format('YYYY-MM-DD_HH:mm')
-            endTime    : '2017-06-01_12:30', // format('YYYY-MM-DD_HH:mm')
+            startTime  : '2017-06-01_10:00', // format('YYYY-MM-DD_HH:mm')
+            endTime    : '2017-06-01_18:00', // format('YYYY-MM-DD_HH:mm')
             description: 'Default description',
             color      : 'green'
         }
