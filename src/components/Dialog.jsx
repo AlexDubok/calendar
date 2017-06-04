@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
+import { saveTask } from '../actions/task-actions.js';
 import { TIME_FORMAT } from '../store/constants.js';
 import './Dialog.less';
 
@@ -207,4 +209,4 @@ class Dialog extends Component {
     }
 }
 
-export default Dialog;
+export default connect(null, { saveTask })(Dialog);

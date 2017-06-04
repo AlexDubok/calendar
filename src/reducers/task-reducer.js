@@ -4,12 +4,13 @@ const initialState = {
     '2017-06-01': [
         {
             id         : 'defaultId', // uuid
-            title      : 'GOGOGOO',
+            title      : 'DevChallenge Final',
             multiDay   : false,
             daysTotal  : 1,
             startTime  : '2017-06-01_09:00', // format('YYYY-MM-DD_HH:mm')
             endTime    : '2017-06-01_12:30', // format('YYYY-MM-DD_HH:mm')
-            description: 'Default description'
+            description: 'Default description',
+            color      : 'green'
         }
     ]
 };
@@ -17,7 +18,6 @@ const initialState = {
 export default function inputs(state = initialState, action) {
     switch (action.type) {
         case (TASK_SAVE):
-            console.log('reducer');
             if (state[action.key]) {
                 return { ...state, [action.key]: [...state[action.key], action.task] };
             }
