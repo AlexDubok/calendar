@@ -34,8 +34,57 @@ body {
             color: black;
         }
     }
+    .helpers {
+        width: 70%;
+        margin: 10px 0;
+        display: flex;
+        > button {
+            height: 30px;
+            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+        }
+        .new {
+            background: tomato;
+            &:hover {
+                background: #e85c43;
+            }
+        }
+        .today {
+            margin-left: 10px;
+            background: lightgray;
+            &:hover {
+                background: #bfbfbf;
+            }
+        }
+    }
     .container {
         width: 80%;
         display: flex;
     }
 }
+
+.dialogEnter {
+    opacity: 0;
+    transition: opacity .3s ease, transform .3s ease;
+    transform: translate(-50%, -100%);
+    &.dialogEnterActive {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+.dialogLeave {
+    opacity: 1;
+    transition: opacity .3s ease, transform .3s ease;
+    transform: translate(-50%, -50%);
+    &.dialogLeaveActive {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+}
+

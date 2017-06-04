@@ -1,41 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
+import CSSTransitionGroup   from 'react-addons-css-transition-group';
 import { Route, NavLink  }  from 'react-router-dom';
 import WeekContainer        from '../containers/WeekContainer.jsx';
 import MonthContainer       from '../containers/MonthContainer.jsx';
 import YearContainer        from '../containers/YearContainer.jsx';
 import Controls             from './Controls.jsx';
 import Dialog               from './Dialog.jsx';
-import './Layout.less';
+import styles               from './Layout.less';
 
 
 class Layout extends Component {
     static propTypes = {
         tasks      : PropTypes.object,
         dialog     : PropTypes.object,
+        openDialog : PropTypes.func,
         closeDialog: PropTypes.func,
         selected   : PropTypes.object,
         selectDate : PropTypes.func,
-        path       : PropTypes.string
+        path       : PropTypes.string,
+        today      : PropTypes.object
     }
 
-    handleNext = () => {
-        const { selectDate, selected, path } = this.props;
-        const newSelected = selected.clone().add(1, path);
+    handleOpenDialog = () => {
+        console.log(openDialog);
+        const { openDialog, selected } = this.props;
+        const startTime = selected.format('YYYY-MM-DD');
 
-        selectDate(newSelected);
+        this.props.openDialog(startTime);
     }
 
-    handlePrevious = () => {
-        const { selectDate, selected, path } = this.props;
-        const newSelected = selected.clone();
+    handleSelectToday = () => {
+        const { selectDate, today } = this.props;
 
-        newSelected.add(-1, path);
-
-        selectDate(newSelected);
+        selectDate(today);
     }
 
-    handleCloseDialog = () => this.props.closeDialog();
+    handleCloseDialog = () => this.props.dialog.isOpen
+        ? this.props.closeDialog()
+        : null;
 
     render() {
         const { closeDialog, selected, selectDate, path } = this.props;
@@ -60,19 +63,38 @@ class Layout extends Component {
                     <NavLink styleName='link' activeStyle={selectedStyle} to='/year'>Year</NavLink >
                 </div>
                 <Controls selected={selected} selectDate={selectDate} path={path} />
+                <div styleName='helpers'>
+                    <button styleName='new' onClick={this.handleOpenDialog}>New</button>
+                    <button styleName='today' onClick={this.handleSelectToday}>Today</button>
+                </div>
                 <div styleName='container'>
                     <Route exact path='/' component={WeekContainer} />
                     <Route exact path='/month' component={MonthContainer} />
                     <Route exact path='/year' component={YearContainer} />
                 </div>
-                {
-                    isOpen
+                <CSSTransitionGroup
+                    transitionName={{
+                        enter       : styles.dialogEnter,
+                        enterActive : styles.dialogEnterActive,
+                        leave       : styles.dialogLeave,
+                        leaveActive : styles.dialogLeaveActive,
+                        appear      : styles.dialogEnter,
+                        appearActive: styles.dialogEnterActive
+                    }}
+                    transitionEnterTimeout={300}
+                    transitionLeaveTimeout={300}
+                    transitionAppearTimeout={300}
+                    transitionAppear
+                >
+                    {
+                        isOpen
                         ? <Dialog
                             startTime={startTime}
-                            closeDialog={closeDialog}
+                            closeDialog={closeDialog.bind(this, isOpen)}
                           />
                         : null
-                }
+                    }
+                </CSSTransitionGroup>
             </div>
         );
     }

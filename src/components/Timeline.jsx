@@ -28,15 +28,10 @@ class Timeline extends PureComponent {
 
     handleCreateTask = (e) => {
         e.stopPropagation();
-        const dialogParams = {
-            startTime: e.target.getAttribute('data-time')
-        };
+        const startTime =  e.target.getAttribute('data-time');
 
-        this.props.openDialog(dialogParams);
+        this.props.openDialog(startTime);
     }
-
-
-    handleDrag = (e) => console.log(e.target);
 
     renderTimeline = (date) => {
         const start = moment(date).startOf('day');
@@ -51,7 +46,6 @@ class Timeline extends PureComponent {
                         key={time}
                         styleName='timeframe'
                         data-time={time}
-                        data-index={i}
                         onClick={this.handleCreateTask}
                     />
                 );
