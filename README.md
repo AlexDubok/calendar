@@ -12,18 +12,14 @@ Offline-first calendar app.
     - To edit or delete, hover mouse over the task and click "edit" or "delete".
 - You can navigate between different views (week, month, year).
 - To return to the current date, click "Today".
-- All data persists in Local storage.
-- Service worker will cache app files so the app could work offline.
+- All data is persisted in Local storage.
+- Service worker caches app files so that the app can work offline.
 
 ### 3. Development mode
 
 1. `npm install`
 2. `npm start`
 3. Open http://localhost:3000 in the latest Chrome.
-
-### 4. Running tests
-
-1. `npm test`
 
 
 #### Technologies used
