@@ -6,8 +6,9 @@ import Layout from '../components/Layout.jsx';
 
 class LayoutContainer extends Component {
     static propTypes = {
-        tasks : PropTypes.object,
-        dialog: PropTypes.object
+        tasks      : PropTypes.object,
+        dialog     : PropTypes.object,
+        closeDialog: PropTypes.func
     };
 
     render() {

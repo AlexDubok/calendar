@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
-import moment from 'moment';
-import PropTypes from 'prop-types';
+import cx                       from 'classnames';
+import moment                   from 'moment';
+import PropTypes                from 'prop-types';
 import './Task.less';
 
-class Timeline extends PureComponent {
+class Task extends PureComponent {
     static propTypes = {
-        timeFormat: PropTypes.string,
-        dayKey    : PropTypes.string,
-        task      : PropTypes.object,
-        maxHeight : PropTypes.number
+        timeFormat : PropTypes.string,
+        dayKey     : PropTypes.string,
+        task       : PropTypes.object,
+        parentWidth: PropTypes.number,
+        maxHeight  : PropTypes.number
     }
 
     state = {
@@ -39,24 +41,32 @@ class Timeline extends PureComponent {
     }
 
     render() {
-        const { task, timeFormat } = this.props;
+        const { task, timeFormat, parentWidth } = this.props;
         const top = this.getTopPosition();
         const height = this.getHeight();
-        const startTime = moment(task.startTime, timeFormat).format('HH:mm');
-        const endTime = moment(task.endTime, timeFormat).format('HH:mm');
+        const startMoment = moment(task.startTime, timeFormat);
+        const endMoment = moment(task.endTime, timeFormat);
+        const startTime = startMoment.format('HH:mm');
+        const endTime = endMoment.format('HH:mm');
+        const taskStyle = task.multiDay
+            ? { top: 0, height: 25, width: parentWidth * task.daysTotal, color: task.color || 'blue' }
+            : { top, height, color: task.color || 'blue' };
+        const oneLine = task.multiDay || endMoment.diff(startMoment, 'minutes') < 60;
+        const taskClass = cx('Task', {
+            oneLine
+        });
 
         return (
             <div
-                styleName='Task'
-                style={{ top, height, color: task.color || 'blue' }}
+                styleName={taskClass}
+                style={taskStyle}
             >
                 <div styleName='bg' />
-                <div styleName='time'>{`${startTime}-${endTime}`}</div>
-                <div>{task.title}</div>
-                <div styleName='description'>{task.description}</div>
+                <div styleName='time'>{`${startTime} - ${!oneLine ? endTime : ''}`}</div>
+                <div styleName='title'>{task.title}</div>
             </div>
         );
     }
 }
 
-export default Timeline;
+export default Task;

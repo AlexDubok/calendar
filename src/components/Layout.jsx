@@ -37,10 +37,8 @@ class Layout extends PureComponent {
 
     render() {
         const { selected } = this.state;
-        const { tasks } = this.props;
-        const { isOpen, position, startTime } = this.props.dialog;
-
-        console.log(position);
+        const { tasks, closeDialog } = this.props;
+        const { isOpen, startTime } = this.props.dialog;
 
         const startDate = selected.startOf('isoWeek').format('MMM Do');
         const endDate = selected.endOf('isoWeek').format('MMM Do');
@@ -57,7 +55,12 @@ class Layout extends PureComponent {
                 </div>
                 <Week selected={selected} tasks={tasks} />
                 {
-                    isOpen ? <Dialog style={position} startTime={startTime} /> : null
+                    isOpen
+                        ? <Dialog
+                            startTime={startTime}
+                            closeDialog={closeDialog}
+                          />
+                        : null
                 }
             </div>
         );

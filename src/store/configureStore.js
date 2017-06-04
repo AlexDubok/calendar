@@ -15,8 +15,6 @@ export default function configureStore() {
         )
     );
 
-    console.log(rootReducer);
-
     if (module.hot) {
         module.hot.accept('../reducers', () => {
             const nextRootReducer = require('../reducers/index').default;

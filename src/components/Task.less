@@ -1,19 +1,33 @@
 .Task {
     width: 100%;
+    min-height: 20px;
     position: absolute;
     left: 0;
     border: 2px solid currentColor;
     background: white;
-    padding: 5px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    &.oneLine {
+        flex-direction: row;
+        align-items: center;
+        .time {
+            margin-right: 5px;
+        }
+    }
     > div:not(:first-child) {
         color: black;
     }
     .time {
         font-weight: bold;
+        flex-shrink: 0;
+        font-size: 12px;
     }
-    .description {
-        font-size: 14px;
-        margin-top: 5px;
+    .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .bg {
         opacity: 0.2;

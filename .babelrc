@@ -22,7 +22,8 @@
             "babel-plugin-react-css-modules", 
             {
                "filetypes": {
-                    ".less": "postcss-less"
+                    ".less": "postcss-less",
+                    ".css": "css-loader"
                 },
                 "webpackHotModuleReloading": true,
                 "generateScopedName": "[name]__[local]___[hash:base64:5]"

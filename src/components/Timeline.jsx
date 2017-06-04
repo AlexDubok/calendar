@@ -2,10 +2,10 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { TIME_FORMAT } from '../store/constants.js';
 import Task from './Task.jsx';
 import './Timeline.less';
 
-const TIME_FORMAT = 'YYYY-MM-DD_HH:mm';
 
 class Timeline extends PureComponent {
     static propTypes = {
@@ -15,17 +15,21 @@ class Timeline extends PureComponent {
     }
 
     state = {
-        editing: false
+        editing: false,
+        mounted: false
     }
 
+    state = {
+        dayWidth: 100
+    }
+
+    componentDidMount() {
+        this.setState({ dayWidth: this.column.offsetWidth }); // eslint-disable-line
+    }
 
     handleCreateTask = (e) => {
         e.stopPropagation();
-        const rect = e.target.getBoundingClientRect();
-        const { top, left } = rect;
-
         const dialogParams = {
-            position : { top: top - 30, left: left + 120 },
             startTime: e.target.getAttribute('data-time')
         };
 
@@ -59,25 +63,34 @@ class Timeline extends PureComponent {
         return hours;
     }
 
-    render() {
+    renderTasks = () => {
         const { tasks, dayKey } = this.props;
 
+        if (tasks && tasks[dayKey]) {
+            return tasks[dayKey].map((task, i) => {
+                return (
+                    <Task
+                        key={i}
+                        task={task}
+                        maxHeight={1000}
+                        timeFormat={TIME_FORMAT}
+                        parentWidth={this.state.dayWidth}
+                    />
+                );
+            });
+        }
+    }
+
+    render() {
+        const { dayKey } = this.props;
+
         return (
-            <div styleName='Timeline' onMouseLeave={this.handleStopEditing}>
+            <div styleName='Timeline'
+                onMouseLeave={this.handleStopEditing}
+                ref={col => this.column = col}
+            >
                 {this.renderTimeline(dayKey)}
-                {
-                    tasks && tasks[dayKey] &&
-                    tasks[dayKey].map((task, i) => {
-                        return (
-                            <Task
-                                key={i}
-                                task={task}
-                                maxHeight={800}
-                                timeFormat={TIME_FORMAT}
-                            />
-                        );
-                    })
-                }
+                {this.renderTasks()}
             </div>
         );
     }

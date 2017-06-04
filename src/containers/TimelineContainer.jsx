@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { openDialog } from '../actions/dialog-actions.js';
+import { openDialog, closeDialog } from '../actions/dialog-actions.js';
 import Timeline from '../components/Timeline.jsx';
 
-const TIME_FORMAT = 'YYYY-MM-DD_HH:mm';
 
 class TimelineContainer extends Component {
     static propTypes = {
@@ -13,18 +12,14 @@ class TimelineContainer extends Component {
         openDialog: PropTypes.func
     }
 
-
     render() {
         const { dayKey, tasks } = this.props;
 
-
         return (
             <Timeline
-                timeFormat={TIME_FORMAT}
                 openDialog={this.props.openDialog}
                 dayKey={dayKey}
                 tasks={tasks}
-
             />
         );
     }
@@ -32,9 +27,8 @@ class TimelineContainer extends Component {
 
 function mapStateToProps(state) {
     return {
-        tasks : state.tasks,
-        dialog: state.dialog
+        tasks: state.tasks
     };
 }
 
-export default connect(mapStateToProps, { openDialog })(TimelineContainer);
+export default connect(mapStateToProps, { openDialog, closeDialog })(TimelineContainer);
