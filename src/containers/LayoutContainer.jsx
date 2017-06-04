@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { openDialog, closeDialog } from '../actions/dialog-actions.js';
 import * as viewActions from '../actions/displayed-actions.js';
 import { getToday } from '../reducers/displayed-reducer.js';
+import { saveTask } from '../actions/task-actions.js';
 import Layout from '../components/Layout.jsx';
 
 class LayoutContainer extends PureComponent {
@@ -13,6 +14,7 @@ class LayoutContainer extends PureComponent {
         openDialog : PropTypes.func,
         closeDialog: PropTypes.func,
         selectDate : PropTypes.func,
+        saveTask   : PropTypes.func,
         selected   : PropTypes.object,
         location   : PropTypes.object,
         today      : PropTypes.object
@@ -24,6 +26,7 @@ class LayoutContainer extends PureComponent {
 
         return (
             <Layout
+                saveTask={saveTask}
                 today={today}
                 tasks={tasks}
                 dialog={dialog}
@@ -47,4 +50,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { openDialog, closeDialog, ...viewActions })(LayoutContainer);
+export default connect(mapStateToProps, { openDialog, closeDialog, saveTask, ...viewActions })(LayoutContainer);

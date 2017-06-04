@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import moment from 'moment';
 import debounce from 'lodash.debounce';
 import PropTypes from 'prop-types';
 import { TIME_FORMAT } from '../store/constants.js';
-import { saveTask } from '../actions/task-actions.js';
 import './Dialog.less';
 
 class Dialog extends Component {
     static propTypes = {
-        style      : PropTypes.object,
-        startTime  : PropTypes.string,
-        closeDialog: PropTypes.func,
-        saveTask   : PropTypes.func
+        style       : PropTypes.object,
+        closeDialog : PropTypes.func,
+        saveTask    : PropTypes.func,
+        dialogParams: PropTypes.object,
+        tasks       : PropTypes.object
     }
 
     state = {
         title      : 'Default title',
+        id         : null,
         startDate  : '',
         startTime  : '',
         endDate    : '',
@@ -25,18 +25,38 @@ class Dialog extends Component {
     }
 
     componentWillMount() {
+        const { tasks } = this.props;
         const {
-            startTime
-        } = this.props;
-        const [selectedDate, selectedTime] = startTime.split('_');
-        const defaultEndTime = moment(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm');
+            startTime,
+            taskId,
+            taskKey
+        } = this.props.dialogParams;
 
-        this.setState({
-            startDate: selectedDate,
-            startTime: selectedTime,
-            endDate  : selectedDate,
-            endTime  : defaultEndTime
-        });
+        if (!taskId) {
+            const [selectedDate, selectedTime] = startTime.split('_');
+            const defaultEndTime = moment(selectedTime, 'HH:mm').add(1, 'hour').format('HH:mm');
+
+            this.setState({
+                startDate: selectedDate,
+                startTime: selectedTime,
+                endDate  : selectedDate,
+                endTime  : defaultEndTime
+            });
+        } else {
+            const editingTask = tasks[taskKey].filter(task => task.id === taskId)[0];
+            const [selectedDate, selectedTime] = editingTask.startTime.split('_');
+            const [endDate, endTime] = editingTask.endTime.split('_');
+
+            this.setState({
+                id         : taskId,
+                title      : editingTask.title,
+                startDate  : selectedDate,
+                startTime  : selectedTime,
+                description: editingTask.description,
+                endDate,
+                endTime
+            });
+        }
     }
 
     handleChange = (e) => {
@@ -52,6 +72,7 @@ class Dialog extends Component {
 
     handleSaveTask = () => {
         const {
+            id,
             title,
             startDate,
             startTime,
@@ -63,6 +84,7 @@ class Dialog extends Component {
         const fullEndTime = [endDate, endTime].join('_');
 
         const newTask = {
+            id,
             title,
             startTime: fullStartTime,
             endTime  : fullEndTime,
@@ -78,12 +100,14 @@ class Dialog extends Component {
 
             if (taskInHours <= 24) {
                 const task1 = {
+                    id,
                     title,
                     startTime: fullStartTime,
                     endTime  : momentStartTime.clone().endOf('day').format(TIME_FORMAT),
                     description
                 };
                 const task2 = {
+                    id,
                     title,
                     startTime: momentEndTime.clone().startOf('day').format(TIME_FORMAT),
                     endTime  : fullEndTime,
@@ -96,6 +120,7 @@ class Dialog extends Component {
                 const taskInDays = momentEndTime.diff(momentStartTime, 'days');
 
                 const task = {
+                    id,
                     title,
                     multiDay : true,
                     daysTotal: taskInDays + 1, // including last day
@@ -113,6 +138,7 @@ class Dialog extends Component {
 
     render() {
         const {
+            title,
             startDate,
             startTime,
             endDate,
@@ -129,6 +155,7 @@ class Dialog extends Component {
                         id='title'
                         type='text'
                         placeholder='Task name'
+                        defaultValue={title}
                         onChange={this.handleChange}
                     />
                     <button
@@ -180,4 +207,4 @@ class Dialog extends Component {
     }
 }
 
-export default connect(null, { saveTask })(Dialog);
+export default Dialog;

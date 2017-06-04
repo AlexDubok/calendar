@@ -30,7 +30,7 @@ class Timeline extends PureComponent {
         e.stopPropagation();
         const startTime =  e.target.getAttribute('data-time');
 
-        this.props.openDialog(startTime);
+        this.props.openDialog({ startTime });
     }
 
     renderTimeline = (date) => {
@@ -55,7 +55,7 @@ class Timeline extends PureComponent {
     }
 
     renderTasks = () => {
-        const { tasks, dayKey } = this.props;
+        const { tasks, dayKey, openDialog } = this.props;
 
         if (tasks && tasks[dayKey]) {
             return tasks[dayKey].map((task, i) => {
@@ -64,6 +64,7 @@ class Timeline extends PureComponent {
                         key={i}
                         task={task}
                         maxHeight={960}
+                        openDialog={openDialog}
                         timeFormat={TIME_FORMAT}
                         parentWidth={this.state.dayWidth}
                     />

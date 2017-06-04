@@ -1,10 +1,14 @@
-export const DIALOG_OPEN = 'SET_TASK';
+export const DIALOG_OPEN = 'DIALOG_OPEN';
 export const DIALOG_CLOSE = 'DIALOG_CLOSE';
 
-export function openDialog(startTime) {
+export function openDialog({ taskKey, taskId, startTime }) {
     return {
-        type: DIALOG_OPEN,
-        startTime
+        type   : DIALOG_OPEN,
+        payload: {
+            startTime,
+            taskId,
+            taskKey
+        }
     };
 }
 

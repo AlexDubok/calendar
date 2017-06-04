@@ -10,13 +10,20 @@ class Task extends PureComponent {
         dayKey     : PropTypes.string,
         task       : PropTypes.object,
         parentWidth: PropTypes.number,
-        maxHeight  : PropTypes.number
+        maxHeight  : PropTypes.number,
+        openDialog : PropTypes.func
     }
 
     state = {
         editing  : false,
         startTime: this.props.task.startTime,
         endTime  : this.props.task.endTime
+    }
+
+    handleEdit = (task) => {
+        const taskKey = task.startTime.split('_')[0];
+
+        this.props.openDialog({ taskKey, taskId: task.id });
     }
 
     getHeight = () => {
@@ -60,6 +67,7 @@ class Task extends PureComponent {
             <div
                 styleName={taskClass}
                 style={taskStyle}
+                onClick={this.handleEdit.bind(this, task)}
             >
                 <div styleName='bg' />
                 <div styleName='time'>{`${startTime} - ${!oneLine ? endTime : ''}`}</div>

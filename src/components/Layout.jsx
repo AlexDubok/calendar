@@ -18,13 +18,13 @@ class Layout extends Component {
         closeDialog: PropTypes.func,
         selected   : PropTypes.object,
         selectDate : PropTypes.func,
+        saveTask   : PropTypes.func,
         path       : PropTypes.string,
         today      : PropTypes.object
     }
 
     handleOpenDialog = () => {
-        console.log(openDialog);
-        const { openDialog, selected } = this.props;
+        const { selected } = this.props;
         const startTime = selected.format('YYYY-MM-DD');
 
         this.props.openDialog(startTime);
@@ -41,8 +41,8 @@ class Layout extends Component {
         : null;
 
     render() {
-        const { closeDialog, selected, selectDate, path } = this.props;
-        const { isOpen, startTime } = this.props.dialog;
+        const { closeDialog, selected, selectDate, path, dialog, saveTask, tasks } = this.props;
+        const { isOpen } = dialog;
         const selectedStyle = {
             background  : 'black',
             color       : 'white',
@@ -89,7 +89,9 @@ class Layout extends Component {
                     {
                         isOpen
                         ? <Dialog
-                            startTime={startTime}
+                            dialogParams={dialog.params}
+                            saveTask={saveTask}
+                            tasks={tasks}
                             closeDialog={closeDialog.bind(this, isOpen)}
                           />
                         : null
