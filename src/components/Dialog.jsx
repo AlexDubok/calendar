@@ -23,7 +23,8 @@ class Dialog extends Component {
         startTime  : '',
         endDate    : '',
         endTime    : '',
-        description: 'no description'
+        description: 'no description',
+        color      : 'blue'
     }
 
     componentWillMount() {
@@ -55,6 +56,7 @@ class Dialog extends Component {
                 startDate  : selectedDate,
                 startTime  : selectedTime,
                 description: editingTask.description,
+                color      : editingTask.color,
                 endDate,
                 endTime
             });
@@ -80,6 +82,7 @@ class Dialog extends Component {
             startTime,
             endDate,
             endTime,
+            color,
             description
         } = this.state;
         const fullStartTime = [startDate, startTime].join('_');
@@ -90,6 +93,7 @@ class Dialog extends Component {
             title,
             startTime: fullStartTime,
             endTime  : fullEndTime,
+            color,
             description
         };
 
@@ -106,6 +110,7 @@ class Dialog extends Component {
                     title,
                     startTime: fullStartTime,
                     endTime  : momentStartTime.clone().endOf('day').format(TIME_FORMAT),
+                    color,
                     description
                 };
                 const task2 = {
@@ -113,6 +118,7 @@ class Dialog extends Component {
                     title,
                     startTime: momentEndTime.clone().startOf('day').format(TIME_FORMAT),
                     endTime  : fullEndTime,
+                    color,
                     description
                 };
 
@@ -128,6 +134,7 @@ class Dialog extends Component {
                     daysTotal: taskInDays + 1, // including last day
                     startTime: fullStartTime,
                     endTime  : fullEndTime,
+                    color,
                     description
                 };
 
@@ -144,7 +151,8 @@ class Dialog extends Component {
             startDate,
             startTime,
             endDate,
-            endTime
+            endTime,
+            description
         } = this.state;
 
         return (
@@ -199,7 +207,12 @@ class Dialog extends Component {
                     </div>
                 </div>
                 <div styleName='description'>
-                    <textarea id='description' placeholder='Description...' onChange={this.handleChange} />
+                    <textarea
+                        id='description'
+                        placeholder='Description...'
+                        defaultValue={description}
+                        onChange={this.handleChange}
+                    />
                 </div>
                 <div styleName='submit'>
                     <button styleName='cta' onClick={this.handleSaveTask}>Save</button>

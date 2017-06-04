@@ -11,6 +11,7 @@ class Task extends PureComponent {
         task       : PropTypes.object,
         parentWidth: PropTypes.number,
         maxHeight  : PropTypes.number,
+        deleteTask : PropTypes.func,
         openDialog : PropTypes.func
     }
 
@@ -24,6 +25,13 @@ class Task extends PureComponent {
         const taskKey = task.startTime.split('_')[0];
 
         this.props.openDialog({ taskKey, taskId: task.id });
+    }
+
+    handleDelete = (task) => {
+        const taskKey = task.startTime.split('_')[0];
+
+        this.props.deleteTask(taskKey, task);
+        console.log(taskKey, task);
     }
 
     getHeight = () => {
@@ -67,11 +75,14 @@ class Task extends PureComponent {
             <div
                 styleName={taskClass}
                 style={taskStyle}
-                onClick={this.handleEdit.bind(this, task)}
             >
                 <div styleName='bg' />
                 <div styleName='time'>{`${startTime} - ${!oneLine ? endTime : ''}`}</div>
                 <div styleName='title'>{task.title}</div>
+                <div styleName='controls'>
+                    <button onClick={this.handleDelete.bind(this, task)}>delete</button>
+                    <button onClick={this.handleEdit.bind(this, task)}>edit</button>
+                </div>
             </div>
         );
     }

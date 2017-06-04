@@ -1,4 +1,4 @@
-import { TASK_SAVE } from '../store/constants';
+import { TASK_SAVE, TASK_UPDATE, TASK_DELETE } from '../actions/task-actions';
 
 const initialState = {
     '2017-06-01': [
@@ -23,6 +23,16 @@ export default function inputs(state = initialState, action) {
             }
 
             return { ...state, [action.key]: [ action.task ] };
+        case (TASK_UPDATE):
+            return {
+                ...state,
+                [action.key]: [...state[action.key].filter(task => task.id !== action.task.id), action.task]
+            };
+        case (TASK_DELETE):
+            return {
+                ...state,
+                [action.key]: [ ...state[action.key].filter(task => task.id !== action.task.id) ]
+            };
         default:
             return state;
     }

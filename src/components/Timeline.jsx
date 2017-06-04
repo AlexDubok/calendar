@@ -10,7 +10,8 @@ class Timeline extends PureComponent {
     static propTypes = {
         dayKey    : PropTypes.string,
         tasks     : PropTypes.object,
-        openDialog: PropTypes.func
+        openDialog: PropTypes.func,
+        deleteTask: PropTypes.func
     }
 
     state = {
@@ -67,6 +68,7 @@ class Timeline extends PureComponent {
                         openDialog={openDialog}
                         timeFormat={TIME_FORMAT}
                         parentWidth={this.state.dayWidth}
+                        deleteTask={this.props.deleteTask}
                     />
                 );
             });
