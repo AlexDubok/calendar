@@ -35,12 +35,19 @@ body {
         .btn {
             cursor: pointer;
             border: 1px solid transparent;
-            background: tomato;
-            color: black;
+            background: black;
+            color: white;
             border-radius: 4px;
             height: 30px;
+            outline: none;
             &:hover, &:active {
-                color: white;
+                color: black;
+                background: white;
+                border-color: black;
+                outline: none;
+            }
+            &:active {
+                box-shadow: inset 2px 2px 5px 0 rgba(0,0,0,0.75);
             }
             &:active {
                 border-color: var(--input-color);

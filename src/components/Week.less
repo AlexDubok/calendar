@@ -2,42 +2,54 @@
     margin-top: 40px;
     display: flex;
     width: 80%;
-    height: 1000px;
-    background-color: #ffffff;
-    border: 1px solid tomato;
     align-items: center;
     position: relative;
+    overflow: hidden;
     .timeLabels {
         width: 50px;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: -50px;
         display: flex;
         flex-direction: column;
         .timeLabel {
-            height: calc(100% / 24);
+            height: 40px;
+            flex-shrink: 0;
             width: 100%;
+            border-bottom: 1px solid gray;
+            border-right: 1px solid gray;
         }
     }
-    .weekDay {
-        height: 100%;
-        width: calc(100% / 7);
-        border-right: 1px solid black;
+    .mainContainer {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        position: relative;
+    }
+    .dayLabels {
+        margin-left: 50px;
+        min-height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 18px;
+        border: 1px solid gray;
+        background-color: #ffffff;
         .date {
             display: flex;
             justify-content: center;
-            position: absolute;
             height: 30px;
-            width: 100%;
-            top: -30px;
-            left: 0;
+            flex: 1;
         }
-        &:last-child {
-            border-right: none;
+    }
+    .daysContainer {
+        display: flex;
+        overflow-y: auto;
+        height: 800px;
+        border: 1px solid gray;
+        background-color: #ffffff;
+
+        .weekDay {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
     }
 }

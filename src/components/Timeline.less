@@ -1,10 +1,9 @@
 .Timeline {
-    height: 100%;
-    width: 100%;
     flex-direction: column;
     .timeframe {
         border-bottom: 1px solid darkgray;
-        height: calc(100% / 48);
+        border-right: 1px solid black;
+        height: 20px;
         &:nth-child(odd) {
             border-bottom: 1px solid lightgray;
         }
@@ -16,19 +15,6 @@
         }
         &:first-child .active {
             border-top: 2px solid blue;
-        }
-
-        &.inBetween {
-            border-right: 2px solid blue;
-            border-left: 2px solid blue;
-        }
-        &.first {
-            border: 2px solid blue;
-            border-bottom: none;
-        }
-        &.last {
-            border: 2px solid blue;
-            border-top: none;
         }
     }
     .task {

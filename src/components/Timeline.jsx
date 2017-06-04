@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { TIME_FORMAT } from '../store/constants.js';
 import Task from './Task.jsx';
@@ -46,13 +45,11 @@ class Timeline extends PureComponent {
             .map((hour, i) => {
                 const timeObj = start.clone().add(i * 30, 'minutes');
                 const time = timeObj.format(TIME_FORMAT);
-                const cellStyles = cx('timeframe', {
-                });
 
                 return (
                     <div
                         key={time}
-                        styleName={cellStyles}
+                        styleName='timeframe'
                         data-time={time}
                         data-index={i}
                         onClick={this.handleCreateTask}
@@ -72,7 +69,7 @@ class Timeline extends PureComponent {
                     <Task
                         key={i}
                         task={task}
-                        maxHeight={1000}
+                        maxHeight={960}
                         timeFormat={TIME_FORMAT}
                         parentWidth={this.state.dayWidth}
                     />
