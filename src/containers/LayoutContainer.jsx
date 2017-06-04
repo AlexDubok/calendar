@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { openDialog, closeDialog } from '../actions/dialog-actions.js';
@@ -15,7 +16,7 @@ class LayoutContainer extends PureComponent {
         closeDialog: PropTypes.func,
         selectDate : PropTypes.func,
         saveTask   : PropTypes.func,
-        selected   : PropTypes.object,
+        selected   : PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
         location   : PropTypes.object,
         today      : PropTypes.object
     };
@@ -33,7 +34,7 @@ class LayoutContainer extends PureComponent {
                 closeDialog={this.props.closeDialog}
                 openDialog={this.props.openDialog}
                 selectDate={selectDate}
-                selected={selected}
+                selected={moment(selected)}
                 path={path}
             />
         );

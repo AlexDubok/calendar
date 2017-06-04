@@ -29,7 +29,6 @@ async function cachedResource(req) {
     }
 }
 
-
 self.addEventListener('install', event =>
     event.waitUntil(cacheResources())
 );

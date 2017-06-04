@@ -15,7 +15,8 @@ export function loadState() {
 export function saveState(store) {
     try {
         const state = {
-            calendar: store.calendar
+            tasks: store.tasks,
+            view : store.view
         };
         const serializedData = JSON.stringify(state);
 

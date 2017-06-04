@@ -1,4 +1,6 @@
 import uuid from 'uuid';
+import throttle from 'lodash.throttle';
+import { saveState } from '../utils/localStorageUtils';
 import { DIALOG_CLOSE } from './dialog-actions';
 
 export const TASK_SAVE = 'TASK_SAVE';
@@ -14,7 +16,7 @@ export function saveTask(taskKey, taskObj) {
     };
 
     if (taskObj.id) {
-        return (dispatch) => {
+        return (dispatch, getState) => {
             dispatch({
                 type: TASK_UPDATE,
                 key : taskKey,
@@ -23,11 +25,12 @@ export function saveTask(taskKey, taskObj) {
             dispatch({
                 type: DIALOG_CLOSE
             });
+            throttledSaveState(getState());
         };
     }
 
 
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch({
             type: TASK_SAVE,
             key : taskKey,
@@ -36,13 +39,23 @@ export function saveTask(taskKey, taskObj) {
         dispatch({
             type: DIALOG_CLOSE
         });
+        throttledSaveState(getState());
     };
 }
 
 export function deleteTask(taskKey, task) {
-    return {
-        type: TASK_DELETE,
-        key : taskKey,
-        task
+    return (dispatch, getState) => {
+        dispatch({
+            type: TASK_DELETE,
+            key : taskKey,
+            task
+        });
+        throttledSaveState(getState());
     };
 }
+
+export const throttledSaveState = throttle(state => {
+    saveState(state);
+    console.log('state saved');
+}, 2000);
+

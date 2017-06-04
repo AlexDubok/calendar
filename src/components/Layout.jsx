@@ -27,7 +27,7 @@ class Layout extends Component {
         const { selected } = this.props;
         const startTime = selected.format('YYYY-MM-DD');
 
-        this.props.openDialog(startTime);
+        this.props.openDialog({ startTime });
     }
 
     handleSelectToday = () => {
