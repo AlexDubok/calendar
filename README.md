@@ -1,5 +1,6 @@
 # calendar
-Offline-first calendar app.
+## Semi-final DevChallenge 11 task, category Front-End JS
+## Offline-first calendar app.
 
 ### 1. Launching the project 
 
