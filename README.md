@@ -5,7 +5,7 @@ Offline-first calendar app.
 
 1. `npm install`
 2. `npm start`
-3. Open http://localhost:3000 in the latest Chrome.
+3. Open http://localhost:3000 in the Chrome.
 
 To check offline mode: 
 
